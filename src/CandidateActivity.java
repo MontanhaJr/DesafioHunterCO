@@ -23,7 +23,7 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
 public class CandidateActivity extends JFrame {
-	ArrayList<Registro> pessoa;
+	ArrayList<Registro> registro;
 	ArrayList<Candidato> candidato = new ArrayList();
 	private JPanel contentPane;
 
@@ -47,10 +47,11 @@ public class CandidateActivity extends JFrame {
 	 * Create the frame.
 	 */
 	public CandidateActivity() {
+		setResizable(false);
 		importarDadosJson();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainActivity.class.getResource("/Imagens/favicon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Candidato com mais rejeições");
+		setTitle("Candidato com mais Rejeições");
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,10 +64,10 @@ public class CandidateActivity extends JFrame {
 	private void verificarRejeicao() {
 		String nome;
 		int contador = 0;
-		for (int i = 0; i < pessoa.size(); i++) {
-			nome = pessoa.get(i).getCandidate();
-			for (int j = 0; j < pessoa.size(); j++) {
-				if (nome.equals(pessoa.get(j).getCandidate())) {
+		for (int i = 0; i < registro.size(); i++) {
+			nome = registro.get(i).getCandidate();
+			for (int j = 0; j < registro.size(); j++) {
+				if (nome.equals(registro.get(j).getCandidate())) {
 					contador++;
 				}
 			}
@@ -127,7 +128,7 @@ public class CandidateActivity extends JFrame {
 		
 			JSONArray myResponse = new JSONArray(response.toString());
 			java.lang.reflect.Type collectionType = new TypeToken<ArrayList<Registro>>(){}.getType();
-			this.pessoa = gson.fromJson(myResponse.toString(), collectionType);
+			this.registro = gson.fromJson(myResponse.toString(), collectionType);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

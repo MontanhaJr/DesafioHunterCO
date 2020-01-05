@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
 public class ClientAllActivity extends JFrame {
-	ArrayList<Registro> pessoa;
+	ArrayList<Registro> registro;
 	ArrayList<Cliente> cliente = new ArrayList();
 	private JPanel contentPane;
 	
@@ -51,11 +52,12 @@ public class ClientAllActivity extends JFrame {
 	 * Create the frame.
 	 */
 	public ClientAllActivity() {
+		setResizable(false);
 		importarDadosJson();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainActivity.class.getResource("/Imagens/favicon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		setTitle("Cliente com mais Rejeições");
+		setBounds(100, 100, 460, 300);
+		setTitle("Clientes que Rejeitaram Todos");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -64,7 +66,7 @@ public class ClientAllActivity extends JFrame {
 		JLabel lblRejeitouTodos = new JLabel("jLabel");
 		lblRejeitouTodos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRejeitouTodos.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblRejeitouTodos.setBounds(10, 11, 414, 58);
+		lblRejeitouTodos.setBounds(10, 11, 424, 58);
 		lblRejeitouTodos.setText("Clientes que rejeitaram todos:\r\n");
 		contentPane.add(lblRejeitouTodos);
 					
@@ -77,13 +79,13 @@ public class ClientAllActivity extends JFrame {
 			int contador = 0;
 			int contadorRej = 0;
 			
-			for (int i = 0; i < pessoa.size(); i++) {
-				nomeCliente = pessoa.get(i).getClient_id();
-				for (int j = 0; j < pessoa.size(); j++) {
-					if(nomeCliente.equalsIgnoreCase(pessoa.get(j).getClient_id())) 
+			for (int i = 0; i < registro.size(); i++) {
+				nomeCliente = registro.get(i).getClient_id();
+				for (int j = 0; j < registro.size(); j++) {
+					if(nomeCliente.equalsIgnoreCase(registro.get(j).getClient_id())) 
 					{
 						contador++;
-						if(pessoa.get(j).getEventType().equalsIgnoreCase("CANDIDATE_SENT"))
+						if(registro.get(j).getEventType().equalsIgnoreCase("CANDIDATE_SENT"))
 						{
 							contadorRej++;
 						}
@@ -128,12 +130,14 @@ public class ClientAllActivity extends JFrame {
 			textArea = new JTextArea();
 			textArea.setFont(new Font("Microsoft YaHei", Font.PLAIN, 13));
 			textArea.setEditable(false);
-			textArea.setBounds(1, 1, 433, 168);
+			textArea.setBounds(1, 1, 423, 168);
 			textArea.setText(textoFinal);
+			textArea.setSelectionStart(0);
+			textArea.setSelectionEnd(0);
 			contentPane.add(textArea);
 			
 			scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			scrollPane.setBounds(10, 80, 414, 170);
+			scrollPane.setBounds(10, 80, 424, 170);
 			getContentPane().add(scrollPane);
 			
 		}
@@ -158,7 +162,7 @@ public class ClientAllActivity extends JFrame {
 		
 			JSONArray myResponse = new JSONArray(response.toString());
 			java.lang.reflect.Type collectionType = new TypeToken<ArrayList<Registro>>(){}.getType();
-			this.pessoa = gson.fromJson(myResponse.toString(), collectionType);
+			this.registro = gson.fromJson(myResponse.toString(), collectionType);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

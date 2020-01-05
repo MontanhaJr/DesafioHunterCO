@@ -45,7 +45,7 @@ import javax.swing.JTextArea;
 
 
 public class ValuesActivity extends JFrame {
-	ArrayList<Registro> pessoa;
+	ArrayList<Registro> registro;
 	private JPanel contentPane;
 
 	/**
@@ -71,6 +71,7 @@ public class ValuesActivity extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainActivity.class.getResource("/Imagens/favicon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Valores");
+		setResizable(false);
 		setBounds(100, 100, 300, 255);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -155,16 +156,16 @@ public class ValuesActivity extends JFrame {
 				String periodo[] = new String[2];
 				int mes = 0;
 				
-				for (int i = 0; i < pessoa.size(); i++) {
-					periodo = pessoa.get(i).getPeriodo_cobranca().split("-");
+				for (int i = 0; i < registro.size(); i++) {
+					periodo = registro.get(i).getPeriodo_cobranca().split("-");
 					mes = Integer.parseInt(periodo[1]);
 					
 					if(mes >= inicio+1 && mes <= fim+1 || mes <= inicio+1 && mes >= fim+1)
 					{
-						valorLiquido += (float)pessoa.get(i).getValue();
-						valorLiquido -= (float)pessoa.get(i).getLost_value();
-						valorBruto += (float)pessoa.get(i).getValue();
-						valorPerdido -= (float)pessoa.get(i).getLost_value();
+						valorLiquido += (float)registro.get(i).getValue();
+						valorLiquido -= (float)registro.get(i).getLost_value();
+						valorBruto += (float)registro.get(i).getValue();
+						valorPerdido -= (float)registro.get(i).getLost_value();
 					}
 				}
 				
@@ -201,7 +202,7 @@ public class ValuesActivity extends JFrame {
 		
 			JSONArray myResponse = new JSONArray(response.toString());
 			java.lang.reflect.Type collectionType = new TypeToken<ArrayList<Registro>>(){}.getType();
-			this.pessoa = gson.fromJson(myResponse.toString(), collectionType);
+			this.registro = gson.fromJson(myResponse.toString(), collectionType);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

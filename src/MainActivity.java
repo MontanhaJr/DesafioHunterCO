@@ -44,6 +44,7 @@ public class MainActivity extends JFrame {
 	 * Create the frame.
 	 */
 	public MainActivity() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainActivity.class.getResource("/Imagens/favicon.png")));
 		setTitle("Mountain Battleship");
 		setBackground(Color.WHITE);

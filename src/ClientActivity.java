@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class ClientActivity extends JFrame {
-	ArrayList<Registro> pessoa;
+	ArrayList<Registro> registro;
 	ArrayList<Cliente> cliente = new ArrayList();
 	private JPanel contentPane;
 
@@ -46,6 +46,7 @@ public class ClientActivity extends JFrame {
 	 * Create the frame.
 	 */
 	public ClientActivity() {
+		setResizable(false);
 		importarDadosJson();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainActivity.class.getResource("/Imagens/favicon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,10 +64,10 @@ public class ClientActivity extends JFrame {
 			
 			String nomeCliente;
 			int contador = 0;
-			for (int i = 0; i < pessoa.size(); i++) {
-				nomeCliente = pessoa.get(i).getClient_id();
-				for (int j = 0; j < pessoa.size(); j++) {
-					if(nomeCliente.equalsIgnoreCase(pessoa.get(j).getClient_id()) && pessoa.get(j).getEventType().equalsIgnoreCase("CANDIDATE_SENT")) 
+			for (int i = 0; i < registro.size(); i++) {
+				nomeCliente = registro.get(i).getClient_id();
+				for (int j = 0; j < registro.size(); j++) {
+					if(nomeCliente.equalsIgnoreCase(registro.get(j).getClient_id()) && registro.get(j).getEventType().equalsIgnoreCase("CANDIDATE_SENT")) 
 					{
 						contador++;
 					}
@@ -89,27 +90,25 @@ public class ClientActivity extends JFrame {
 				}
 				
 			}
-			System.out.println("Cliente que mais rejeitou: "+maiorNome);
-			System.out.println("Número de rejeições: "+maiorNum);
 			
 			JLabel lblMaisRejeitou = new JLabel("jLabel");
 			lblMaisRejeitou.setHorizontalAlignment(SwingConstants.CENTER);
 			lblMaisRejeitou.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblMaisRejeitou.setBounds(10, 11, 414, 58);
+			lblMaisRejeitou.setBounds(10, 11, 424, 58);
 			lblMaisRejeitou.setText("Cliente que mais rejeitou:\r\n");
 			contentPane.add(lblMaisRejeitou);
 			
 			JLabel lblNumero = new JLabel("New label");
 			lblNumero.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNumero.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNumero.setBounds(10, 143, 414, 107);
+			lblNumero.setBounds(10, 143, 424, 107);
 			lblNumero.setText("Número de rejeições: "+maiorNum);
 			contentPane.add(lblNumero);
 			
 			JLabel lblName = new JLabel("New label");
 			lblName.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			lblName.setHorizontalAlignment(SwingConstants.CENTER);
-			lblName.setBounds(10, 74, 414, 58);
+			lblName.setBounds(10, 74, 424, 58);
 			lblName.setText(maiorNome);
 			contentPane.add(lblName);
 			
@@ -136,7 +135,7 @@ public class ClientActivity extends JFrame {
 		
 			JSONArray myResponse = new JSONArray(response.toString());
 			java.lang.reflect.Type collectionType = new TypeToken<ArrayList<Registro>>(){}.getType();
-			this.pessoa = gson.fromJson(myResponse.toString(), collectionType);
+			this.registro = gson.fromJson(myResponse.toString(), collectionType);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
